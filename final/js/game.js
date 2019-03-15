@@ -2,6 +2,11 @@ var Game=function(){
     //dom元素
     var gameDiv;
     var nextDiv;
+    var timeDiv;
+    var scoreDiv;
+    var resultDiv;
+    //分数
+    var score=0;
     //游戏矩阵
     var gameData=[
         [0,0,0,0,0,0,0,0,0,0],
@@ -215,16 +220,50 @@ var Game=function(){
         refreshDiv(gameData,gameDivs);
         refreshDiv(next.data,nextDivs);
     }
+    //设置时间
+    var setTime=function(time){
+        timeDiv.innerHTML=time;
+    }
+    //加分
+    var addScore=function(line){
+        var s=0;
+        switch(line){
+            case 1:
+                s=10;
+                break;
+            case 2:
+                s=20;
+                break;
+            case 3:
+                s=60;
+                break;
+            case 4:
+                s=100;
+                break;
+            default:
+                break;  
+        }
+        score=score+s;
+        scoreDiv.innerHTML=score;
+    }
+    //游戏结束
+    var gameOver=function(win){
+        if(win){
+            resultDiv.innerHTML='你赢了';  
+        }else{
+            resultDiv.innerHTML='你输了'; 
+        }
+    }
     //初始化方法
-    var init=function(doms){
+    var init=function(doms,type,dir){
         gameDiv=doms.gameDiv;
         nextDiv=doms.nextDiv;
-        cur=SquareFactory.prototype.make(2,2);
-        next=SquareFactory.prototype.make(3,3);
+        timeDiv=doms.timeDiv;
+        scoreDiv=doms.scoreDiv;
+        resultDiv=doms.resultDiv;
+        next=SquareFactory.prototype.make(type,dir);
         initDiv(gameDiv,gameData,gameDivs);
         initDiv(nextDiv,next.data,nextDivs);
-        setData();
-        refreshDiv(gameData,gameDivs);
         refreshDiv(next.data,nextDivs);
     }
     //结束
@@ -247,4 +286,7 @@ var Game=function(){
     this.checkClear=checkClear;
     this.checkGameOver=checkGameOver;
     this.stop=stop;
+    this.setTime=setTime;
+    this.addScore=addScore;
+    this.gameOver=gameOver;
 }
