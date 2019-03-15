@@ -122,16 +122,50 @@ var Game=function(){
           return false;
         }
       }
+      //左移
+    var left = function () {
+        if (cur.canLeft(isValid)) {
+          clearData();
+          cur.left();
+          setData();
+          refreshDiv(gameData, gameDivs);
+          return true;
+        } else {
+          return false;
+        }
+      }
+      //右移
+    var right = function () {
+        if (cur.canRight(isValid)) {
+          clearData();
+          cur.right();
+          setData();
+          refreshDiv(gameData, gameDivs);
+          return true;
+        } else {
+          return false;
+        }
+      }
+      //右移
+    var rotate = function () {
+        if (cur.canRotate(isValid)) {
+          clearData();
+          cur.rotate();
+          setData();
+          refreshDiv(gameData, gameDivs);
+          return true;
+        } else {
+          return false;
+        }
+      }
     //初始化方法
     var init=function(doms){
         gameDiv=doms.gameDiv;
         nextDiv=doms.nextDiv;
-        cur=new Square();
-        next=new Square();
+        cur=SquareFactory.prototype.make(2,2);
+        next=SquareFactory.prototype.make(3,3);
         initDiv(gameDiv,gameData,gameDivs);
         initDiv(nextDiv,next.data,nextDivs);
-        cur.origin.x=3;
-        cur.origin.y=1;
         setData();
         refreshDiv(gameData,gameDivs);
         refreshDiv(next.data,nextDivs);
@@ -139,4 +173,8 @@ var Game=function(){
     //导出API,在函数外面也能通过init调用里面的init函数
     this.init=init;
     this.down=down;
+    this.left=left;
+    this.right=right;
+    this.rotate=rotate;
+    this.fall=function(){while(down());}
 }
