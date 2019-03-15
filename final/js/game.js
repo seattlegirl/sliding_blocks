@@ -28,7 +28,7 @@ var Game=function(){
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]
     ]
     //当前方块
     var cur;
@@ -254,6 +254,20 @@ var Game=function(){
             resultDiv.innerHTML='你输了'; 
         }
     }
+    //底部增加行（干扰对方）
+    var addTailLines=function(lines){
+      for(var i=0;i<gameData.length-lines.length;i++){
+        gameData[i]=gameData[i+lines.length];
+      }
+      for(var i=0;i<lines.length;i++){
+        gameData[gameData.length-lines.length+i]=lines[i];
+      }
+      cur.origin.x=cur.origin.x-lines.length;
+      if(cur.origin.x<0){
+        cur.origin.x=0;
+      }
+      refreshDiv(gameData,gameDivs);
+    }
     //初始化方法
     var init=function(doms,type,dir){
         gameDiv=doms.gameDiv;
@@ -289,4 +303,5 @@ var Game=function(){
     this.setTime=setTime;
     this.addScore=addScore;
     this.gameOver=gameOver;
+    this.addTailLines=addTailLines;
 }

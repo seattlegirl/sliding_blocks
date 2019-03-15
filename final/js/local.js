@@ -2,7 +2,7 @@ var Local=function(){
     //游戏对象
     var game;
     //时间间隔
-    var INTERVAL=200;
+    var INTERVAL=500;
     //定时器
     var timer=null;
     //事件计数器
@@ -43,6 +43,18 @@ var Local=function(){
             }
         }
     }
+    //随机生成干扰行
+    var generataBottomLine=function(lineNum){
+        var lines=[];
+        for(var i=0;i<lineNum;i++){
+            var line=[];
+            for(var j=0;j<10;j++){
+                line.push(Math.ceil(Math.random()*2)-1);//生成0-1随机数
+            }
+            lines.push(line);
+        }
+        return lines;
+    }
     //计数函数
     var timeFunc = function () {
         timeCount += 1;
@@ -50,6 +62,9 @@ var Local=function(){
           timeCount = 0;
           time += 1;
           game.setTime(time);
+          if(time%10==0){
+            game.addTailLines(generataBottomLine(1));
+          }
         }
     }
     //随机生成一个方块种类
